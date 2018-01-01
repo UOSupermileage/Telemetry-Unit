@@ -7,6 +7,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -17,7 +18,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
-    TextView speed;
+    TextView speed, timer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +45,38 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+
             return;
         }
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-
+        startTimer();
         this.onLocationChanged(null);
     }
+
+    private int seconds = 0;
+    private boolean running;
+    private boolean wasRunning;
+
+    public void startTimer(){
+        timer = (TextView) findViewById(R.id.timerText);
+        final Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                running = true;
+                int hours = seconds / 3600;
+                int minutes = (seconds % 3600) / 60;
+                int secs = seconds % 60;
+                String time = String.format("%d:%02d:%02d", hours, minutes, secs);
+                timer.setText(time);
+                seconds++;
+
+
+                handler.postDelayed(this,1000);
+            }
+        });
+    }
+
 
     @Override
     public void onLocationChanged(Location location) {
