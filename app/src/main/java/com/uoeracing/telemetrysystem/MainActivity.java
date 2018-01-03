@@ -20,8 +20,9 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
-    TextView speed, timer;
-    //Button lap = (Button) findViewById(R.id.lapButton);
+    TextView speed, timer, latitude, longitude, lapText;
+    int lap = 0;
+    Button lapButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +30,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         setContentView(R.layout.activity_main);
 
         //lap.setBackgroundColor(Color.rgb(49,203,0));
+        lapText = (TextView)findViewById(R.id.lapText);
+        lapButton = (Button)findViewById(R.id.lapButton);
+        lapButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                lapText.setText("Lap: " + lap++);
+            }
+        });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -52,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             return;
         }
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
         startTimer();
         this.onLocationChanged(null);
     }
@@ -84,11 +93,19 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     @Override
     public void onLocationChanged(Location location) {
         speed = (TextView)this.findViewById(R.id.speed);
+        longitude = (TextView)this.findViewById(R.id.longitude);
+        latitude = (TextView)this.findViewById(R.id.latitude);
 
-        if(location == null)
+        if(location == null) {
             speed.setText("Speed: 0 m/s");
-        else
-            speed.setText("Speed: " + location.getSpeed() + " m/s !!!");
+            longitude.setText("Longitude: Out of Service");
+            latitude.setText("Latitude: Out of Service");
+        }
+        else {
+            speed.setText("Speed: " + location.getSpeed() + " m/s");
+            longitude.setText("Longitude: " + location.getLongitude());
+            latitude.setText("Latitude: " + location.getLatitude());
+        }
     }
 
     @Override
