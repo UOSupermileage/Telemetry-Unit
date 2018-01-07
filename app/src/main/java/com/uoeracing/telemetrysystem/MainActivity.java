@@ -25,6 +25,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     int lap = 0;
     Button lapButton;
 
+
+    private boolean readyToCancel = false;
+    private int cancelTimeout = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +47,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this, MenuActivity.class));
+
+                if(readyToCancel){
+                    startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                }else{
+                    Snackbar.make(view, "Click again to end run.", Snackbar.LENGTH_SHORT).setAction("End Run", null).show();
+                    readyToCancel = true;
+                }
             }
         });
 
@@ -83,6 +93,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
                 timer.setText(time);
                 seconds++;
 
+                if(readyToCancel){
+                    cancelTimeout ++;
+                }
+                if(cancelTimeout>2){
+                    readyToCancel = false;
+                    cancelTimeout = 0;
+                }
 
                 handler.postDelayed(this,1000);
             }
@@ -97,12 +114,12 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         latitude = (TextView)this.findViewById(R.id.latitude);
 
         if(location == null) {
-            speed.setText("Speed: 0 m/s");
+            speed.setText("0 m/s");
             longitude.setText("Longitude: Out of Service");
             latitude.setText("Latitude: Out of Service");
         }
         else {
-            speed.setText("Speed: " + location.getSpeed() + " m/s");
+            speed.setText(location.getSpeed() + " m/s");
             longitude.setText("Longitude: " + location.getLongitude());
             latitude.setText("Latitude: " + location.getLatitude());
         }
