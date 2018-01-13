@@ -42,7 +42,8 @@
                     android:id="@+id/linearLayout3"
                     android:layout_width="387dp"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingStart="@dimen/fab_margin">
 
                     <TextView
                         android:id="@+id/speed"
@@ -72,7 +73,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:background="@drawable/border">
+                    android:background="@drawable/border"
+                    android:layout_marginEnd="@dimen/fab_margin">
 
                     <TextView
                         android:id="@+id/helpBoxTitle"
@@ -111,11 +113,13 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:layout_marginEnd="@dimen/fab_margin"
+                android:layout_marginStart="@dimen/fab_margin">
 
                 <TextView
                     android:id="@+id/lapText"
-                    android:layout_width="130dp"
+                    android:layout_width="85dp"
                     android:layout_height="39dp"
                     android:layout_weight="1"
                     android:text="Lap: 0"
