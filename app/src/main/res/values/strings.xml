@@ -7,4 +7,6 @@
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="speed">Speed:</string>
     <string name="title_activity_map">Map</string>
+    <string name="title_activity_results">Results</string>
+
 </resources>

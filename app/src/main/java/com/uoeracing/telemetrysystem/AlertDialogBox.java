@@ -4,18 +4,13 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v7.app.AlertDialog;
 
-/**
- * Created by Atinderpaul on 2018-01-13.
- */
-
-public class DialogAlerts extends DialogFragment {
+public class AlertDialogBox extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
 
         // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
         builder.setTitle("App Title");
         builder.setMessage("This is an alert with no consequence");
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {

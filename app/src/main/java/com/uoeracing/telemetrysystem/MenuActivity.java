@@ -1,15 +1,16 @@
 package com.uoeracing.telemetrysystem;
 
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-public class MenuActivity extends AppCompatActivity {
+public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
-    ImageButton start;
+    ImageButton start, results;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,13 +18,21 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
 
         start = (ImageButton) findViewById(R.id.startButton);
+        results = (ImageButton) findViewById(R.id.resultsButton);
+        start.setOnClickListener(this);
+        results.setOnClickListener(this);
 
-        start.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+    }
+
+    public void onClick(View v) {
+
+        switch(v.getId()){
+            case R.id.startButton:
                 startActivity(new Intent(MenuActivity.this,MainActivity.class));
-            }
-        });
-
+                break;
+            case R.id.resultsButton:
+                startActivity(new Intent(MenuActivity.this,ResultsActivity.class));
+                break;
+        }
     }
 }
