@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "22819832332",
+    "firebase_url": "https://telemetrysystem-d1484.firebaseio.com",
+    "project_id": "telemetrysystem-d1484",
+    "storage_bucket": "telemetrysystem-d1484.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:22819832332:android:085e248ccaf6022f",
+        "android_client_info": {
+          "package_name": "com.uoeracing.telemetrysystem"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "22819832332-58ksleilppgpb3b2aitm66g5dq04thni.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.uoeracing.telemetrysystem",
+            "certificate_hash": "95d3db81027419802c5e54188b1c0df44422c2f7"
+          }
+        },
+        {
+          "client_id": "22819832332-cidgb4p59mp84rtglu0vlicqjjvhpr02.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGVCL7P6y8TB9mn5Amg4e13xhwLKORz8U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "22819832332-cidgb4p59mp84rtglu0vlicqjjvhpr02.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
