@@ -8,4 +8,6 @@
     <color name="green">#31cb00</color>
     <color name="red">#f72c25</color>
     <color name="background">#1a3135</color>
+    <color name="white">#FFF</color>
+    <color name="dogerBlue">#1E90FF</color>
 </resources>

@@ -4,27 +4,29 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Chronometer;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
-    TextView speed, timer, latitude, longitude, lapText;
+    TextView speed, latitude, longitude, altitude;
+    TextView lapText;
     int lap = 0;
     Button lapButton;
 
+    Chronometer timer;
 
     private boolean readyToCancel = false;
     private int cancelTimeout = 0;
@@ -34,7 +36,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //lap.setBackgroundColor(Color.rgb(49,203,0));
+        // Starting the timer
+        timer = (Chronometer) findViewById(R.id.timer);
+        timer.start();
+
+        // Increasing the Lap Time
         lapText = (TextView)findViewById(R.id.lapText);
         lapButton = (Button)findViewById(R.id.lapButton);
         lapButton.setOnClickListener(new View.OnClickListener() {
@@ -43,6 +49,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             }
         });
 
+        // Stopping the current lap
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,13 +57,15 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
                 if(readyToCancel){
                     startActivity(new Intent(MainActivity.this, MenuActivity.class));
-                }else{
+                }
+                else{
                     Snackbar.make(view, "Click again to end run.", Snackbar.LENGTH_SHORT).setAction("End Run", null).show();
                     readyToCancel = true;
                 }
             }
         });
 
+        // Asking for USER PERMISSIONS
         LocationManager lm = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -71,39 +80,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         }
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
-        startTimer();
         this.onLocationChanged(null);
-    }
-
-    private int seconds = 0;
-    private boolean running;
-    private boolean wasRunning;
-
-    public void startTimer(){
-        timer = (TextView) findViewById(R.id.timerText);
-        final Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                running = true;
-                int hours = seconds / 3600;
-                int minutes = (seconds % 3600) / 60;
-                int secs = seconds % 60;
-                String time = String.format("%d:%02d:%02d", hours, minutes, secs);
-                timer.setText(time);
-                seconds++;
-
-                if(readyToCancel){
-                    cancelTimeout ++;
-                }
-                if(cancelTimeout>2){
-                    readyToCancel = false;
-                    cancelTimeout = 0;
-                }
-
-                handler.postDelayed(this,1000);
-            }
-        });
     }
 
 
@@ -112,16 +89,19 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         speed = (TextView)this.findViewById(R.id.speed);
         longitude = (TextView)this.findViewById(R.id.longitude);
         latitude = (TextView)this.findViewById(R.id.latitude);
+        altitude = (TextView)this.findViewById(R.id.altitude);
 
         if(location == null) {
-            speed.setText("0 m/s");
+            speed.setText("Speed: 0 m/s");
             longitude.setText("Longitude: Out of Service");
             latitude.setText("Latitude: Out of Service");
+            altitude.setText("Altitude: Out of Service");
         }
         else {
             speed.setText(location.getSpeed() + " m/s");
             longitude.setText("Longitude: " + location.getLongitude());
             latitude.setText("Latitude: " + location.getLatitude());
+            altitude.setText("Altitude: " + location.getAltitude());
         }
     }
 
