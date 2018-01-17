@@ -7,27 +7,30 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ResultsActivity extends AppCompatActivity {
 
-    ListView listOfRuns;
-    public static DatabaseReference runsDatabase;
-    List<RunData> runs;
+    public static ListView listOfRuns;
+    public static List<RunData> runs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -36,24 +39,32 @@ public class ResultsActivity extends AppCompatActivity {
             }
         });
 
-        listOfRuns = (ListView) findViewById(R.id.resultsList);
-        runsDatabase = FirebaseDatabase.getInstance().getReference("runs");
-        runs = new ArrayList<>();
-
-
-
     }
 
-    public void setRunsDatabase(DatabaseReference runsDatabase) {
-        this.runsDatabase = runsDatabase;
-    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Read from the database
+        MenuActivity.runsDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // This method is called once with the initial value and again
+                // whenever data at this location is updated.
 
-    public DatabaseReference getRunsDatabase() {
-        return runsDatabase;
-    }
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    RunData product = postSnapshot.getValue(RunData.class);
+                    runs.add(product);
+                }
+                TestsList productsAdapter = new TestsList( ResultsActivity.this, runs);
+                listOfRuns.setAdapter( productsAdapter );
+            }
 
-    private void addRun() {
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
 
+            }
+        });
     }
 
 }

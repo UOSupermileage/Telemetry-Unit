@@ -1,21 +1,30 @@
 package com.uoeracing.telemetrysystem;
 
 import android.content.Intent;
-import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
+
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
 
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
     ImageButton start, results;
+    public static DatabaseReference runsDatabase;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+
+        runsDatabase = FirebaseDatabase.getInstance().getReference("runs");
+        ResultsActivity.listOfRuns = findViewById(R.id.resultsList);
+        ResultsActivity.runs = new ArrayList<>();
 
         start = (ImageButton) findViewById(R.id.startButton);
         results = (ImageButton) findViewById(R.id.resultsButton);
