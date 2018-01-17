@@ -14,15 +14,13 @@ import java.util.ArrayList;
 public class MenuActivity extends AppCompatActivity implements View.OnClickListener {
 
     ImageButton start, results;
-    public static DatabaseReference runsDatabase;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        runsDatabase = FirebaseDatabase.getInstance().getReference("runs");
+        ResultsActivity.runsDatabase = FirebaseDatabase.getInstance().getReference("runs");
         ResultsActivity.listOfRuns = findViewById(R.id.resultsList);
         ResultsActivity.runs = new ArrayList<>();
 

@@ -20,6 +20,7 @@ import java.util.List;
 
 public class ResultsActivity extends AppCompatActivity {
 
+    public static DatabaseReference runsDatabase;
     public static ListView listOfRuns;
     public static List<RunData> runs;
 
@@ -45,7 +46,7 @@ public class ResultsActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         // Read from the database
-        MenuActivity.runsDatabase.addValueEventListener(new ValueEventListener() {
+        runsDatabase.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 // This method is called once with the initial value and again

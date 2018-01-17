@@ -127,13 +127,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     }
 
     private void addRun() {
-        String id = MenuActivity.runsDatabase.push().getKey();
+        String id = ResultsActivity.runsDatabase.push().getKey();
         runNumber++;
         SimpleDateFormat formattedDate = new SimpleDateFormat("MMM DD, YYYY");
 
         RunData run = new RunData(id,"Run " + runNumber, formattedDate.format(Calendar.getInstance().getTime()));
 
-        MenuActivity.runsDatabase.child(id).setValue(run);
+        ResultsActivity.runsDatabase.child(id).setValue(run);
 
         Toast.makeText(this, "Run Recorded", Toast.LENGTH_LONG).show();
     }
