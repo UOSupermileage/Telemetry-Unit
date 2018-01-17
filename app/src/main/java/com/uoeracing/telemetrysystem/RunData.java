@@ -10,45 +10,35 @@ import java.util.ArrayList;
  */
 
 public class RunData {
-    private String key;
-    private String totalTime;
-    private double totalLaps;
+    ArrayList<PositionData> positions = new ArrayList<PositionData>();
+
+    private String runName, startDate;
 
     public RunData() {
 
     }
-    public RunData(String id, String productname, double price) {
-        this.key = key;
-        this.totalTime = totalTime;
-        this.totalLaps = totalLaps;
-    }
-    public RunData(String productname, double price) {
-        this.totalTime = totalTime;
-        this.totalLaps = totalLaps;
+
+    public ArrayList<PositionData> getPositions() {
+        return positions;
     }
 
-    public double getTotalLaps() {
-        return totalLaps;
+    public void addPosition(PositionData position) {
+        this.positions.add(position);
     }
 
-    public String getKey() {
-        return key;
+    public String getRunName() {
+        return runName;
     }
 
-    public String getTotalTime() {
-        return totalTime;
+    public void setRunName(String runName) {
+        this.runName = runName;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public String getStartDate() {
+        return startDate;
     }
 
-    public void setTotalLaps(double totalLaps) {
-        this.totalLaps = totalLaps;
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
     }
-
-    public void setTotalTime(String totalTime) {
-        this.totalTime = totalTime;
-    }
-
 }
