@@ -12,10 +12,12 @@ import java.util.ArrayList;
 public class RunData {
     ArrayList<PositionData> positions = new ArrayList<PositionData>();
 
-    private String runName, startDate;
+    private String id, runName, startDate;
 
-    public RunData() {
-
+    public RunData(String id, String runName, String startDate) {
+        this.id = id;
+        this.runName = runName;
+        this.startDate =startDate;
     }
 
     public ArrayList<PositionData> getPositions() {

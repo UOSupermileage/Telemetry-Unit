@@ -13,11 +13,16 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
@@ -30,6 +35,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     private boolean readyToCancel = false;
     private int cancelTimeout = 0;
+
+    int runNumber = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
                 if(readyToCancel){
                     startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                    addRun();
                 }
                 else{
                     Snackbar.make(view, "Click again to end run.", Snackbar.LENGTH_SHORT).setAction("End Run", null).show();
@@ -118,5 +126,17 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     @Override
     public void onProviderDisabled(String provider) {
 
+    }
+
+    private void addRun() {
+        String id = ResultsActivity.runsDatabase.push().getKey();
+        runNumber++;
+        SimpleDateFormat formattedDate = new SimpleDateFormat("DD/MMM/YYYY");
+
+        RunData run = new RunData(id, "Run " + runNumber, formattedDate.format(Calendar.getInstance().getTime()));
+
+        ResultsActivity.runsDatabase.child(id).setValue(run);
+
+        Toast.makeText(this, "Run Recorded", Toast.LENGTH_LONG).show();
     }
 }
