@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             public void onClick(View view) {
 
                 if(readyToCancel){
-                    startActivity(new Intent(MainActivity.this, MenuActivity.class));
+                    startActivity(new Intent(MainActivity.this, RunConfirmation.class));
                     addRun();
                 }
                 else{
@@ -135,6 +135,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
         ResultsActivity.runsDatabase.child(id).setValue(run);
 
-        Toast.makeText(this, "Run Recorded", Toast.LENGTH_LONG).show();
+        //Toast.makeText(this, "Run Recorded", Toast.LENGTH_LONG).show();
     }
 }

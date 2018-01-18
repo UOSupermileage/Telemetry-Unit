@@ -16,7 +16,6 @@
         android:roundIcon="@drawable/uoeico"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".MenuActivity"
             android:label="@string/title_activity_main"
@@ -27,7 +26,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:screenOrientation="landscape"
@@ -50,11 +48,11 @@
         <activity
             android:name=".MapActivity"
             android:label="@string/title_activity_map" />
-
         <activity
             android:name=".ResultsActivity"
             android:label="@string/title_activity_results"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".RunConfirmation"></activity>
     </application>
 
 </manifest>

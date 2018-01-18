@@ -16,7 +16,7 @@ public class RunData {
 
     public RunData(String id, String runName, String startDate) {
         this.runName = runName;
-        this.startDate =startDate;
+        this.startDate = startDate;
     }
 
     public ArrayList<PositionData> getPositions() {
