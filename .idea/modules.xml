@@ -2,15 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-<<<<<<< HEAD
-      <module fileurl="file://E:\Programming\Android\AndroidProjects\TelemetryUnit\TelemetryUnit\Telemetry Unit.iml" filepath="E:\Programming\Android\AndroidProjects\TelemetryUnit\TelemetryUnit\Telemetry Unit.iml" />
-      <module fileurl="file://C:\Users\Atinderpaul\Android Studio Projects\Telemetry Unit\TelemetrySystem.iml" filepath="C:\Users\Atinderpaul\Android Studio Projects\Telemetry Unit\TelemetrySystem.iml" />
       <module fileurl="file://$PROJECT_DIR$/TelemetryUnit.iml" filepath="$PROJECT_DIR$/TelemetryUnit.iml" />
-=======
-      <module fileurl="file://$PROJECT_DIR$/Telemetry Unit.iml" filepath="$PROJECT_DIR$/Telemetry Unit.iml" />
->>>>>>> ad7a1e654953a1b2b22be386f39d3666ff326f46
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://E:\Programming\Android\AndroidProjects\TelemetryUnit\TelemetryUnit\app\app.iml" filepath="E:\Programming\Android\AndroidProjects\TelemetryUnit\TelemetryUnit\app\app.iml" />
     </modules>
   </component>
 </project>

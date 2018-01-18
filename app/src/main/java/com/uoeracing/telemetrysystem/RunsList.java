@@ -10,11 +10,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TestsList extends ArrayAdapter<RunData> {
+public class RunsList extends ArrayAdapter<RunData> {
     private Activity context;
     List<RunData> tests;
 
-    public TestsList(Activity context, List<RunData> tests) {
+    public RunsList(Activity context, List<RunData> tests) {
         super(context, R.layout.layout_tests, tests);
         this.context = context;
         this.tests = tests;
