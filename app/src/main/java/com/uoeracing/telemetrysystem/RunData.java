@@ -14,6 +14,8 @@ public class RunData {
 
     private String runName, startDate;
 
+    public RunData(){}
+
     public RunData(String id, String runName, String startDate) {
         this.runName = runName;
         this.startDate = startDate;

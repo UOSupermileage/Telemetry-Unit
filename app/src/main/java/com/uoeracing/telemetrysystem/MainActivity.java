@@ -24,6 +24,8 @@ import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity implements LocationListener {
 
+    static RunData run;
+
     TextView speed, latitude, longitude, altitude;
     TextView lapText;
     int lap = 0;
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     private boolean readyToCancel = false;
     private int cancelTimeout = 0;
 
-    int runNumber = 0;
+    static int runNumber = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
                 if(readyToCancel){
                     startActivity(new Intent(MainActivity.this, RunConfirmation.class));
-                    addRun();
+
                 }
                 else{
                     Snackbar.make(view, "Click again to end run.", Snackbar.LENGTH_SHORT).setAction("End Run", null).show();
@@ -126,12 +128,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     }
 
-    private void addRun() {
+    public static void addRun() {
         String id = ResultsActivity.runsDatabase.push().getKey();
         runNumber++;
         SimpleDateFormat formattedDate = new SimpleDateFormat("MMM DD, YYYY");
 
-        RunData run = new RunData(id,"Run " + runNumber, formattedDate.format(Calendar.getInstance().getTime()));
+        run.setRunName("Run " + runNumber);
+        run.setStartDate(formattedDate.format(Calendar.getInstance().getTime()));
 
         ResultsActivity.runsDatabase.child(id).setValue(run);
 

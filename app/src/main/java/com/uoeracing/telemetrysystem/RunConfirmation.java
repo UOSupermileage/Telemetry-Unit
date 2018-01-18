@@ -10,7 +10,7 @@ import android.widget.ImageButton;
 
 public class RunConfirmation extends AppCompatActivity {
 
-    ImageButton cancel;
+    ImageButton cancel, confirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +19,7 @@ public class RunConfirmation extends AppCompatActivity {
 
         //getActionBar().setTitle("Run Confirmation");
         cancel = (ImageButton) findViewById(R.id.cancelButton);
+        confirm = (ImageButton) findViewById(R.id.confirmButton);
 
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,5 +31,15 @@ public class RunConfirmation extends AppCompatActivity {
             }
         });
 
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //MainActivity.addRun();
+            }
+        });
+
     }
+
+
+
 }
