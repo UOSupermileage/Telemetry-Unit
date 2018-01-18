@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     static RunData run;
 
-    TextView speed, latitude, longitude, altitude;
+    TextView speed, latitude, longitude, altitude, angle;
     TextView lapText;
     int lap = 0;
     Button lapButton;
@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         // Increasing the Lap Time
         lapText = (TextView)findViewById(R.id.lapText);
         lapButton = (Button)findViewById(R.id.lapButton);
+        angle = (TextView) findViewById(R.id.bearing);
         lapButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 lapText.setText("Lap: " + lap++);
@@ -104,12 +105,14 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             longitude.setText("Longitude: Out of Service");
             latitude.setText("Latitude: Out of Service");
             altitude.setText("Altitude: Out of Service");
+            angle.setText("Bearing: Out of Service");
         }
         else {
             speed.setText(location.getSpeed() + " m/s");
             longitude.setText("Longitude: " + location.getLongitude());
             latitude.setText("Latitude: " + location.getLatitude());
             altitude.setText("Altitude: " + location.getAltitude());
+            angle.setText("Bearing: " + location.getBearing());
         }
     }
 
@@ -133,8 +136,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         runNumber++;
         SimpleDateFormat formattedDate = new SimpleDateFormat("MMM DD, YYYY");
 
-        run.setRunName("Run " + runNumber);
-        run.setStartDate(formattedDate.format(Calendar.getInstance().getTime()));
+        //run.setRunName("Run " + runNumber);
+        //run.setStartDate(formattedDate.format(Calendar.getInstance().getTime()));
 
         ResultsActivity.runsDatabase.child(id).setValue(run);
 

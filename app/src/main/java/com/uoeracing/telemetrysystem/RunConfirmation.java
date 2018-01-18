@@ -34,7 +34,7 @@ public class RunConfirmation extends AppCompatActivity {
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //MainActivity.addRun();
+                MainActivity.addRun();
             }
         });
 
