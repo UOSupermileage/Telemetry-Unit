@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class TestsList extends ArrayAdapter<RunData> {
@@ -24,12 +25,12 @@ public class TestsList extends ArrayAdapter<RunData> {
         LayoutInflater inflater = context.getLayoutInflater();
         View listViewItem = inflater.inflate(R.layout.layout_tests, null, true);
 
-        TextView textTotalTime = (TextView) listViewItem.findViewById(R.id.totalTime);
-        TextView textTotalLaps = (TextView) listViewItem.findViewById(R.id.totalLaps);
+        TextView textTotalTime = (TextView) listViewItem.findViewById(R.id.nameOfRun);
+        TextView textTotalLaps = (TextView) listViewItem.findViewById(R.id.startDate);
 
         RunData run = tests.get(position);
-        textTotalTime.setText(String.valueOf(run.getTotalTime()));
-        textTotalLaps.setText(String.valueOf(run.getTotalLaps()));
+        textTotalTime.setText(String.valueOf(run.getRunName()));
+        textTotalLaps.setText(String.valueOf(run.getStartDate()));
         return listViewItem;
     }
 }
