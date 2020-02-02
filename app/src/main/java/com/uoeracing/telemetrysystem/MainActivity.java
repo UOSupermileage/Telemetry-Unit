@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         this.onLocationChanged(null);
     }
 
-
     @Override
     public void onLocationChanged(Location location) {
         speed = (TextView)this.findViewById(R.id.speed);

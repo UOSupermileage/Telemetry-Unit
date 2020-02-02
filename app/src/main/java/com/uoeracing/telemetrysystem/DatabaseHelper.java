@@ -35,22 +35,23 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.insert("RUN", null, null) != -1;
     }
 
-    public boolean logSpeed(int run, int lap, String point, double speed) {
-
+    public boolean logPositionData(int run, PositionData pd) {
         SQLiteDatabase db = this.getWritableDatabase();
 
-        Cursor cursor = db.rawQuery("SELECT * FROM SPEED WHERE Run=?", new String[]{String.valueOf(run)});
-        cursor.moveToFirst();
+        Cursor speedCursor = db.rawQuery("SELECT * FROM SPEED WHERE Run=? AND Lap=?",
+                new String[]{String.valueOf(run), String.valueOf(pd.getLap())});
 
-        ContentValues cv = new ContentValues();
-        cv.put("Run", run);
-        cv.put("Lap", lap);
-        cv.put("Point", point);
-        cv.put("Speed", speed);
+        Cursor elevationCursor = db.rawQuery("SELECT * FROM ELEVATION WHERE Run=? AND Lap=?",
+                new String[]{String.valueOf(run), String.valueOf(pd.getLap())});
 
-        return db.update("SPEED", cv, "run=? AND lap=?", new String[]{String.valueOf(run), String.valueOf(lap)}) != -1;
+        Cursor lapTimeCursor = db.rawQuery("SELECT * FROM TIME WHERE Run=? AND Lap=?",
+                new String[]{String.valueOf(run), String.valueOf(pd.getLap())});
+
+
 
     }
+
+
 
     public boolean logElevation(int run, int lap, String point, double elevation) {
 
