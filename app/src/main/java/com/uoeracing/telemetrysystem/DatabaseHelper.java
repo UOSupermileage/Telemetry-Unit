@@ -37,8 +37,39 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean logPositionData(int run, PositionData pd) {
         SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues speedValues = new ContentValues();
+        speedValues.put("Run", run);
+        speedValues.put("Lap", pd.getLap());
+        speedValues.put("Point", "A");
+        speedValues.put("Speed", pd.getSpeed());
 
-        Cursor speedCursor = db.rawQuery("SELECT * FROM SPEED WHERE Run=? AND Lap=?",
+        long speedRes = db.update("SPEED", speedValues, "Run=? AND Lap=?",
+                new String[]{String.valueOf(run), String.valueOf(pd.getLap())});
+
+        ContentValues elevationValues = new ContentValues();
+        elevationValues.put("Run", run);
+        elevationValues.put("Lap",pd.getLap());
+        elevationValues.put("Point", "A");
+        elevationValues.put("Elevation", pd.getAltitude());
+
+        long elevationRes = db.update("ELEVATION", elevationValues, "Run=? AND Lap=?",
+                new String[]{String.valueOf(run), String.valueOf(pd.getLap())});
+
+        ContentValues timeValues = new ContentValues();
+        elevationValues.put("Run", run);
+        elevationValues.put("Lap",pd.getLap());
+        elevationValues.put("Time", pd.getTime());
+
+        long timeRes = db.update("TIME", timeValues, "Run=? AND Lap=?",
+                new String[]{String.valueOf(run), String.valueOf(pd.getLap())});
+
+        return (speedRes != -1) && (elevationRes != -1) && (timeRes != -1);
+
+    }
+
+    //CURSORS TO BE USED FOR READING DATABASE
+    /*
+    Cursor speedCursor = db.rawQuery("SELECT * FROM SPEED WHERE Run=? AND Lap=?",
                 new String[]{String.valueOf(run), String.valueOf(pd.getLap())});
 
         Cursor elevationCursor = db.rawQuery("SELECT * FROM ELEVATION WHERE Run=? AND Lap=?",
@@ -46,27 +77,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Cursor lapTimeCursor = db.rawQuery("SELECT * FROM TIME WHERE Run=? AND Lap=?",
                 new String[]{String.valueOf(run), String.valueOf(pd.getLap())});
-
-
-
-    }
-
-
-
-    public boolean logElevation(int run, int lap, String point, double elevation) {
-
-        SQLiteDatabase db = this.getWritableDatabase();
-
-        Cursor cursor = db.rawQuery("SELECT * FROM ELEVATION WHERE Run=?", new String[]{String.valueOf(run)});
-        cursor.moveToFirst();
-
-        ContentValues cv = new ContentValues();
-        cv.put("Run", run);
-        cv.put("Lap", lap);
-        cv.put("Point", point);
-        cv.put("Elevation", elevation);
-
-        return db.update("ELEVATION", cv, "run=? AND lap=?", new String[]{String.valueOf(run), String.valueOf(lap)}) != -1;
-
-    }
+     */
 }
