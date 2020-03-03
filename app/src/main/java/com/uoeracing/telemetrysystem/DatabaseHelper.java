@@ -67,10 +67,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public boolean readPositionData(int run, PositionData pd) {
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor speedCursor = db.rawQuery("SELECT * FROM SPEED WHERE Run=? AND Lap=?",
+    //CURSORS TO BE USED FOR READING DATABASE
+    /*
+    Cursor speedCursor = db.rawQuery("SELECT * FROM SPEED WHERE Run=? AND Lap=?",
                 new String[]{String.valueOf(run), String.valueOf(pd.getLap())});
 
         Cursor elevationCursor = db.rawQuery("SELECT * FROM ELEVATION WHERE Run=? AND Lap=?",
@@ -78,7 +77,5 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         Cursor lapTimeCursor = db.rawQuery("SELECT * FROM TIME WHERE Run=? AND Lap=?",
                 new String[]{String.valueOf(run), String.valueOf(pd.getLap())});
-
-        return true;
-    }
+     */
 }

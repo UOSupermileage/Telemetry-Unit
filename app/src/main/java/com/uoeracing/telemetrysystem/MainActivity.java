@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         altitude = (TextView)this.findViewById(R.id.altitude);
 
         if(location == null) {
-            speed.setText("Out of Service");
+            speed.setText("Speed: 0 m/s");
             longitude.setText("Longitude: Out of Service");
             latitude.setText("Latitude: Out of Service");
             altitude.setText("Altitude: Out of Service");
