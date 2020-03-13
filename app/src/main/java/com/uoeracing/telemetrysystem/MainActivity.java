@@ -8,6 +8,8 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -21,13 +23,27 @@ import android.widget.Chronometer;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements LocationListener {
+public class MainActivity extends AppCompatActivity implements LocationListener, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+
+    GoogleMap mGoogleMap;
+    MapFragment mapFragment;
+    GoogleApiClient mGoogleApiClient;
+    LocationRequest mLocationRequest;
+
 
     static RunData run;
 
@@ -47,6 +63,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Map View init
+        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.fragment_map);
+        mapFragment.getMapAsync(this);
+
 
         // Starting the timer
         timer = (Chronometer) findViewById(R.id.timer);
@@ -115,6 +136,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             altitude.setText("Altitude: " + location.getAltitude());
             angle.setText("Bearing: " + location.getBearing());
         }
+
+        LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,11));
     }
 
     @Override
@@ -132,6 +156,10 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
 
     }
 
+
+
+
+
     public static void addRun() {
         String id = ResultsActivity.runsDatabase.push().getKey();
         runNumber++;
@@ -143,5 +171,38 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
         ResultsActivity.runsDatabase.child(id).setValue(run);
 
         //Toast.makeText(this, "Run Recorded", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mGoogleMap = googleMap;
+        mGoogleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+        buildGoogleApiClient();
+        mGoogleMap.setMyLocationEnabled(true);
+        mGoogleApiClient.connect();
+    }
+
+    protected void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+        mGoogleApiClient.connect();
+    }
+
+    @Override
+    public void onConnected(@Nullable Bundle bundle) {
+
+    }
+
+    @Override
+    public void onConnectionSuspended(int i) {
+
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+
     }
 }
