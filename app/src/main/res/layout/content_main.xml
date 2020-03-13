@@ -40,7 +40,7 @@
 
                 <LinearLayout
                     android:id="@+id/linearLayout3"
-                    android:layout_width="387dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:paddingStart="@dimen/fab_margin">
@@ -84,29 +84,28 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
+                    android:layout_marginEnd="@dimen/fab_margin"
                     android:background="@drawable/border"
-                    android:layout_marginEnd="@dimen/fab_margin">
+                    android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/helpBoxTitle"
-                        android:background="@color/dogerBlue"
-                        android:textSize="32sp"
-                        android:textAlignment="center"
-                        android:textColor="@color/white"
-                        android:layout_width="match_parent"
+                        android:id="@+id/longitude"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Driver Helpbox"/>
+                        android:text="Longitude:"
+                        android:textColor="@color/colorPrimary" />
 
                     <TextView
-                        android:id="@+id/helpBoxText"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:textColor="@color/white"
-                        android:padding="@dimen/fab_margin"
-                        android:textSize="45sp"
-                        android:text="Text that helps the driver goes here"/>
+                        android:id="@+id/latitude"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Laditude:"
+                        android:textColor="@color/colorPrimary" />
 
+                    <com.google.android.gms.maps.MapView
+                        android:id="@+id/mapView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -153,24 +152,6 @@
                     android:textColor="@color/background" />
             </LinearLayout>
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/longitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="2"
-            android:layout_row="0"
-            android:textColor="@color/colorPrimary"
-            android:text="Longitude:" />
-
-        <TextView
-            android:id="@+id/latitude"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_column="2"
-            android:layout_row="1"
-            android:textColor="@color/colorPrimary"
-            android:text="Laditude:" />
 
     </GridLayout>
 
