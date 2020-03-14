@@ -9,12 +9,13 @@ package com.uoeracing.telemetrysystem;
 public class PositionData {
 
     // Class variables to store instantaneous vehicular data.
-    private int currentTime, currentLap, height;
+    private String currentTime;
+    private int currentLap, height;
     private double longitude, latitude, speed, altitude;
     private boolean isInclined;
 
     // Constructor defines all relevant data to be logged in object.
-    public PositionData(int currentTime, int currentLap, int height, double longitude, double latitude, double speed, double altitude, boolean isInclined) {
+    public PositionData(String currentTime, int currentLap, double longitude, double latitude, double speed, double altitude) {
         this.currentTime = currentTime;
         this.currentLap = currentLap;
         this.height = height;
@@ -27,11 +28,11 @@ public class PositionData {
 
 
     // Getters and Setters
-    public int getTime() {
+    public String getTime() {
         return currentTime;
     }
 
-    public void setTime(int currentTime) {
+    public void setTime(String currentTime) {
         this.currentTime = currentTime;
     }
 

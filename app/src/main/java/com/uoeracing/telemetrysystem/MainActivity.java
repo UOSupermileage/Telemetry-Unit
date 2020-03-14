@@ -29,13 +29,15 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements LocationListener, OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
@@ -54,15 +56,19 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     Chronometer timer;
 
+    Location loc;
+
     private boolean readyToCancel = false;
     private int cancelTimeout = 0;
-
     static int runNumber = 0;
+
+    DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        db = new DatabaseHelper(this);
 
         //Map View init
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.fragment_map);
@@ -117,6 +123,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     @Override
     public void onLocationChanged(Location location) {
+        DecimalFormat df = new DecimalFormat("#.####");
+        df.setRoundingMode(RoundingMode.CEILING);
+
+        loc = location;
+
         speed = (TextView)this.findViewById(R.id.speed);
         longitude = (TextView)this.findViewById(R.id.longitude);
         latitude = (TextView)this.findViewById(R.id.latitude);
@@ -130,11 +141,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
             angle.setText("Bearing: Out of Service");
         }
         else {
-            speed.setText(location.getSpeed() + " m/s");
-            longitude.setText("Longitude: " + location.getLongitude());
-            latitude.setText("Latitude: " + location.getLatitude());
-            altitude.setText("Altitude: " + location.getAltitude());
-            angle.setText("Bearing: " + location.getBearing());
+            speed.setText(df.format(location.getSpeed()) + " m/s");
+            longitude.setText("Longitude: " + df.format(location.getLongitude()));
+            latitude.setText("Latitude: " + df.format(location.getLatitude()));
+            altitude.setText("Altitude: " + df.format(location.getAltitude()));
+            angle.setText("Bearing: " + df.format(location.getBearing()));
         }
 
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
@@ -156,21 +167,23 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     }
 
+    public void startLogging() throws InterruptedException {
+        
+        while (!readyToCancel) {
+            TimeUnit.SECONDS.sleep(10);
+            PositionData pd = new PositionData(timer.getText().toString(), lap, loc.getLongitude(),
+                    loc.getLatitude(), loc.getSpeed(), loc.getAltitude());
+            db.logPositionData(0, pd);
+        }
+
+    }
+
 
 
 
 
     public static void addRun() {
-        String id = ResultsActivity.runsDatabase.push().getKey();
-        runNumber++;
-        SimpleDateFormat formattedDate = new SimpleDateFormat("MMM DD, YYYY");
 
-        //run.setRunName("Run " + runNumber);
-        //run.setStartDate(formattedDate.format(Calendar.getInstance().getTime()));
-
-        ResultsActivity.runsDatabase.child(id).setValue(run);
-
-        //Toast.makeText(this, "Run Recorded", Toast.LENGTH_LONG).show();
     }
 
     @Override
