@@ -20,10 +20,6 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-        ResultsActivity.runsDatabase = FirebaseDatabase.getInstance().getReference("runs");
-        ResultsActivity.listOfRuns = findViewById(R.id.resultsList);
-        ResultsActivity.runs = new ArrayList<>();
-
         start = (ImageButton) findViewById(R.id.startButton);
         results = (ImageButton) findViewById(R.id.resultsButton);
         start.setOnClickListener(this);
@@ -35,10 +31,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
         switch(v.getId()){
             case R.id.startButton:
-                startActivity(new Intent(MenuActivity.this,MainActivity.class));
+                startActivity(new Intent(MenuActivity.this, MainActivity.class));
                 break;
             case R.id.resultsButton:
-                startActivity(new Intent(MenuActivity.this,ResultsActivity.class));
+                startActivity(new Intent(MenuActivity.this, ResultsActivity.class));
                 break;
         }
     }

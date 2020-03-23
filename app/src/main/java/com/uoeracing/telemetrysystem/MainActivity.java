@@ -8,6 +8,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     TextView speed, latitude, longitude, altitude, angle;
     TextView lapText;
+    TextView runNumberText;
     int lap = 0;
     Button lapButton;
 
@@ -60,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
     private boolean readyToCancel = false;
     private int cancelTimeout = 0;
-    static int runNumber = 0;
+    static int runNumber;
 
     DatabaseHelper db;
 
@@ -69,6 +71,11 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         db = new DatabaseHelper(this);
+
+        //Creating new run
+        runNumber = db.createNewRun();
+        runNumberText = (TextView) findViewById(R.id.run_textView);
+        runNumberText.setText(String.valueOf(runNumber));
 
         //Map View init
         mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.fragment_map);
@@ -119,6 +126,8 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
         lm.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
 
+
+
     }
 
     @Override
@@ -150,6 +159,16 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
 
         LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
         mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng,11));
+
+        System.out.println(SystemClock.elapsedRealtime() - timer.getBase());
+        if ((SystemClock.elapsedRealtime() - timer.getBase()) % 10 == 0) {
+            if (loc != null) {
+                PositionData pd = new PositionData(timer.getText().toString(), lap, loc.getLongitude(),
+                        loc.getLatitude(), loc.getSpeed(), loc.getAltitude());
+                db.logPositionData(runNumber, pd);
+            }
+        }
+
     }
 
     @Override
@@ -168,12 +187,13 @@ public class MainActivity extends AppCompatActivity implements LocationListener,
     }
 
     public void startLogging() throws InterruptedException {
-        
+
         while (!readyToCancel) {
-            TimeUnit.SECONDS.sleep(10);
-            PositionData pd = new PositionData(timer.getText().toString(), lap, loc.getLongitude(),
-                    loc.getLatitude(), loc.getSpeed(), loc.getAltitude());
-            db.logPositionData(0, pd);
+            if (loc != null) {
+                PositionData pd = new PositionData(timer.getText().toString(), lap, loc.getLongitude(),
+                        loc.getLatitude(), loc.getSpeed(), loc.getAltitude());
+                db.logPositionData(runNumber, pd);
+            }
         }
 
     }

@@ -17,7 +17,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE RUN(ID INTEGER PRIMARY KEY AUTOINCREMENT)");
+        db.execSQL("CREATE TABLE RUN(ID INTEGER PRIMARY KEY NOT NULL)");
         db.execSQL("CREATE TABLE SPEED(Run INTEGER, Lap INTEGER, Point TEXT, Speed REAL)");
         db.execSQL("CREATE TABLE ELEVATION(Run INTEGER, Lap INTEGER, Point TEXT, Elevation REAL)");
         db.execSQL("CREATE TABLE TIME(Run INTEGER, Lap INTEGER, Time INTEGER)");
@@ -30,9 +30,20 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS TIME");
     }
 
-    public boolean createNewRun() {
+    public int createNewRun() {
         SQLiteDatabase db = this.getWritableDatabase();
-        return db.insert("RUN", null, null) != -1;
+        Cursor cursor = db.rawQuery("SELECT ID FROM RUN", null);
+
+        ContentValues cv = new ContentValues();
+        if (cursor.getCount() > 0) {
+            cursor.moveToLast();
+            cv.put("ID", cursor.getInt(0) + 1);
+        } else {
+            cv.put("ID", 0);
+        }
+        db.insert("RUN", null, cv);
+
+        return cv.getAsInteger("ID");
     }
 
     public boolean logPositionData(int run, PositionData pd) {
@@ -65,6 +76,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         return (speedRes != -1) && (elevationRes != -1) && (timeRes != -1);
 
+    }
+
+    public boolean getPositionData() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM RUN", new String[]{});
+        cursor.moveToLast();
+        return true;
     }
 
     //CURSORS TO BE USED FOR READING DATABASE
